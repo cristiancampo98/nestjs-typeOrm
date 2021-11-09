@@ -1,4 +1,7 @@
-import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 export abstract class Generic<Entity, Id, Dto, PartialDto> {

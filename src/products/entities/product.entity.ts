@@ -1,4 +1,15 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { Brand } from './brand.entity';
+import { Category } from './category.entity';
 
 @Entity()
 export class Product {
@@ -30,4 +41,22 @@ export class Product {
     type: 'varchar',
   })
   image: string;
+
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+
+  @ManyToOne(() => Brand, (brand) => brand.products)
+  brand: Brand;
+
+  @ManyToMany(() => Category, (category) => category.products)
+  categories: Category[];
 }

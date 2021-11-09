@@ -1,4 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Customer } from './customer.entity';
 
 @Entity()
 export class User {
@@ -14,13 +23,29 @@ export class User {
 
   @Column({
     type: 'varchar',
-    length: 6,
+    length: 255,
   })
   password: string;
 
   @Column({
     type: 'varchar',
-    length: 255,
+    length: 100,
   })
   role: string;
+
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+
+  @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
+  @JoinColumn()
+  customer: Customer;
 }
